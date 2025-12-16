@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights | ECODE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="mission.html">Mission</a></li>
+        <li><a href="Ecode.html">About ECODE</a></li>
+        
+        <li class="social-separator">|</li>
+        <li><a href="https://www.instagram.com/ecode.brc/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/department-of-economics-christ-deemed-to-be-university-bgr-campus-4a4a1b23a/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+    </ul>
+</nav>
+
+    <section class="page-container">
+        <h1>Insight by <span class="ecode-highlight">ECODE</span></h1>
+        <p class="subtitle">Monthly analysis and projects by our students.</p>
+
+        <div class="card-grid">
+            <div class="content-card">
+                <img src="images/newsletter1.jpg" alt="Newsletter Thumbnail" class="card-thumb">
+                <div class="card-body">
+                    <h3>October '24: Inflation Trends</h3>
+                    <p>A deep dive into post-pandemic inflation using R and Python visualization tools.</p>
+                    <a href="path-to-pdf.pdf" class="btn btn-primary" target="_blank">View Newsletter</a>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <img src="images/newsletter2.jpg" alt="Newsletter Thumbnail" class="card-thumb">
+                <div class="card-body">
+                    <h3>September '24: Crypto Analysis</h3>
+                    <p>Student project analyzing Bitcoin volatility compared to traditional stocks.</p>
+                    <a href="#" class="btn btn-primary">View Newsletter</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="chatbot-toggler" onclick="toggleChat()">💬</div>
+    <div class="chatbot-window" id="chat-window">
+        <div class="chat-header">Gauri (AI Assistant)</div>
+        <div class="chat-body" id="chat-body">
+            <div class="chat-msg bot-msg">Hi! I am Gauri. Ask me about ECODE events or insights!</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Type here...">
+            <button onclick="handleChatInput()">Send</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

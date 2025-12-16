@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission & Vision | ECODE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="mission.html">Mission</a></li>
+        <li><a href="Ecode.html">About ECODE</a></li>
+        
+        <li class="social-separator">|</li>
+        <li><a href="https://www.instagram.com/ecode.brc/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/department-of-economics-christ-deemed-to-be-university-bgr-campus-4a4a1b23a/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+    </ul>
+</nav>
+    <section class="page-container" style="max-width: 800px; margin: 0 auto;">
+        <h1>Mission & <span class="ecode-highlight">Vision</span></h1>
+        
+        <div style="margin-top: 40px;">
+            <h3>Our Vision</h3>
+            <p style="color: #ccc; margin-bottom: 30px;">
+                To build a vibrant academic and professional community that empowers students to use economics and data science as tools for informed decision-making, innovation, and social impact.
+            </p>
+
+            <h3>Our Mission</h3>
+            <p style="color: #ccc;">
+                	•	To promote interdisciplinary learning by integrating economics with data science and analytical thinking.
+            </p>
+	•	To provide hands-on learning experiences through events like HACK that encourage problem-solving and collaboration.
+            </p>
+	•	To expose students to industry insights and career pathways through expert-led talks and workshops.
+             </p>
+	•	To cultivate a culture of research, curiosity, and critical inquiry within the student community.
+             </p>
+	•	To bridge the gap between theory and real-world application in economics and data-driven domains.
+            </p>
+        </div>
+    </section>
+
+    <div class="chatbot-toggler" onclick="toggleChat()">💬</div>
+    <div class="chatbot-window" id="chat-window">
+        <div class="chat-header">Gauri (AI Assistant)</div>
+        <div class="chat-body" id="chat-body">
+            <div class="chat-msg bot-msg">Hi! I am Gauri. Ask me about ECODE events or insights!</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Type here...">
+            <button onclick="handleChatInput()">Send</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

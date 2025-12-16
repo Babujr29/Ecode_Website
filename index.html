@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECODE | Economics & Data Science Club</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="mission.html">Mission</a></li>
+        <li><a href="Ecode.html">About ECODE</a></li>
+        
+        <li class="social-separator">|</li>
+        <li><a href="https://www.instagram.com/ecode.brc/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/department-of-economics-christ-deemed-to-be-university-bgr-campus-4a4a1b23a/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+    </ul>
+</nav>
+
+    <section class="hero-container">
+        <div class="intro-side">
+            <h1>Welcome to <span class="ecode-highlight">ECODE</span></h1>
+            <h2 class="subtitle">The Economics and Data Science Club</h2>
+            
+            <div class="intro-text">
+                <p>
+                    Welcome to ECODE, the premier student body dedicated to bridging the gap between economic theory and modern data analytics. 
+                    We are a community of critical thinkers and innovators. Our club fosters an environment where students can explore the 
+                    intricacies of data visualization, econometrics, and financial modeling. Through workshops, hackathons, and research 
+                    projects, we empower our members to turn raw data into actionable economic insights. Join us in redefining the future of Economics.
+                </p>
+            </div>
+        </div>
+
+            <div class="announcement-side">
+                <div class="announcement-box">
+                    <div class="announcement-header">Latest Updates</div>
+                    
+                    <div class="marquee-wrapper"></div>
+                        <div class="marquee-content">
+                            <a href="events.html" class="announcement-item">
+                                <h4>Annual Data Summit 2025</h4>
+                                <p>Registration closes soon! Click to view details.</p>
+                            </a>
+                            <a href="insights.html" class="announcement-item">
+                                <h4>November Newsletter Out</h4>
+                                <p>Read our analysis on the current fiscal policy.</p>
+                            </a>
+                            <a href="#" class="announcement-item">
+                                <h4>Guest Lecture: Mr. Sharma</h4>
+                                <p>Topic: AI in Macroeconomics. 18th Dec.</p>
+                            </a>
+                            <a href="#" class="announcement-item">
+                                <h4>Recruitment Drive</h4>
+                                <p>Interviews scheduled for next week. Check email.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <section class="members-section">
+        <h3 class="section-title">Meet the Team</h3>
+
+        <div class="heads-grid">
+            <div class="member-card">
+                <img src="Shivam.JPG" alt="Shivam" class="member-photo"> <div class="member-name">Shivam</div>
+                <div class="member-role">Club Head (6 BA ECO)</div>
+            </div>
+            <div class="member-card">
+                <img src="gauri.jpeg" alt="Gauri" class="member-photo"> <div class="member-name">Gauri Agarwal</div>
+                <div class="member-role">Club Head (6 BA ECO)</div>
+            </div>
+        </div>
+
+        <h4 style="margin-bottom:20px; color:#a1a1aa;">Co-Heads</h4>
+        <div class="heads-grid">
+            <div class="member-card">
+                <img src="Sanskruthi.jpeg" alt="Co-Head" class="member-photo">
+                <div class="member-name">Sanskruthi</div>
+            <div class="member-role">Co-Head (4 BA ECO)</div>
+            </div>
+            <div class="member-card">
+                <img src="Shivam.JPG" alt="Co-Head" class="member-photo">
+                <div class="member-name">Bagheshri</div>
+                <div class="member-role">Co-Head (4 BA ECO)</div>
+            </div>
+        </div>
+
+        <h4 style="margin-bottom:20px; color:#a1a1aa;">Core Members</h4>
+        <div class="members-grid">
+            <div class="member-card">
+                <img src="Shivam.JPG" alt="Member" class="member-photo">
+                <div class="member-name">Gouri P</div>
+                <div class="member-role">Member(6 BA ECO)</div>
+            </div>
+            <div class="member-card">
+                <img src="Prachi.jpeg" alt="Member" class="member-photo">
+                <div class="member-name">Prachi Shah</div>
+                <div class="member-role">Member(2 BSC EDS)</div>
+            </div>
+            <div class="member-card">
+                <img src="Shivam.JPG" alt="Member" class="member-photo">
+                <div class="member-name">Siya Anand</div>
+                <div class="member-role">Member(2 BSC EDS)</div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align:center; padding: 20px; border-top: 1px solid #333; color: #555;">
+        <p>&copy; 2025 ECODE Club.</p>
+    </footer>
+
+    <div class="chatbot-toggler" onclick="toggleChat()">💬</div>
+    
+    <div class="chatbot-window" id="chat-window">
+        <div class="chat-header">Gauri (AI Assistant)</div>
+        <div class="chat-body" id="chat-body">
+            <div class="chat-msg bot-msg">Hi! I am Gauri. Ask me about ECODE events or insights!</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Type here...">
+            <button onclick="handleChatInput()">Send</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

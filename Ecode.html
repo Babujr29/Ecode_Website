@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission & Vision | ECODE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="mission.html">Mission</a></li>
+        <li><a href="Ecode.html">About ECODE</a></li>
+        
+        <li class="social-separator">|</li>
+        <li><a href="https://www.instagram.com/ecode.brc/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/department-of-economics-christ-deemed-to-be-university-bgr-campus-4a4a1b23a/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+    </ul>
+</nav>
+    <section class="page-container" style="max-width: 800px; margin: 0 auto;">
+        <h1>About <span class="ecode-highlight">ECODE</span></h1>
+        
+        <div style="margin-top: 40px;">
+            <p style="color: #ccc; margin-bottom: 30px;">
+                ECODE is the Economics and Data Science Club of the Department of Economics at CHRIST (Deemed to be University), Bannerghatta Road Campus. The club serves as a dynamic platform for students who are curious about the real-world application of economics, data, and technology, encouraging learning beyond the classroom.
+            </p>
+            <p style="color: #ccc; margin-bottom: 30px;">
+                	At the heart of ECODE is our flagship event DASHHACK, a two-day interdisciplinary hackathon that brings together students to solve real-world economic and data-driven problems. DASHHACK challenges participants to think critically, work collaboratively, and apply analytical tools, economic reasoning, and data science techniques to create innovative solutions within a limited time frame.
+            </p>
+            <p style="color: #ccc; margin-bottom: 30px;">
+	ECODE organises guest lectures, workshops, and interactive sessions featuring academicians, industry professionals, and practitioners. These sessions focus on themes such as careers in economics and data science, emerging industry trends, research methods, analytics tools, and policy applications, helping students bridge the gap between theory and practice.
+            </p>
+            <p style="color: #ccc; margin-bottom: 30px;">
+	We aim to build a community of learners who are analytical, curious, and socially aware, equipping students with the skills, exposure, and confidence needed to navigate the evolving world of economics and data science.         
+            </p>
+        </div>
+    </section>
+
+    <div class="chatbot-toggler" onclick="toggleChat()">💬</div>
+    <div class="chatbot-window" id="chat-window">
+        <div class="chat-header">Gauri (AI Assistant)</div>
+        <div class="chat-body" id="chat-body">
+            <div class="chat-msg bot-msg">Hi! I am Gauri. Ask me about ECODE events or insights!</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Type here...">
+            <button onclick="handleChatInput()">Send</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
