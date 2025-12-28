@@ -8,17 +8,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav>
-    <ul>
+        <nav>
+        <div class="logo">ECODE</div> <div class="menu-toggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+    <ul id="nav-menu">
         <li><a href="index.html">Home</a></li>
-        <li><a href="insights.html">Insights</a></li>
+        <li><a href="insights.html">Newsletter</a></li>
         <li><a href="events.html">Events</a></li>
         <li><a href="mission.html">Mission</a></li>
         <li><a href="Ecode.html">About ECODE</a></li>
         
         <li class="social-separator">|</li>
-        <li><a href="https://www.instagram.com/ecode.brc/" target="_blank"><i class="fab fa-instagram"></i></a></li>
-        <li><a href="https://www.linkedin.com/in/department-of-economics-christ-deemed-to-be-university-bgr-campus-4a4a1b23a/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+
+        <li class="mobile-socials">
+            <a href="https://www.instagram.com/ecode.brc/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+            <a href="https://www.linkedin.com/in/department-of-economics-christ-deemed-to-be-university-bgr-campus-4a4a1b23a/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+        </li>
     </ul>
 </nav>
 
@@ -30,18 +36,9 @@
             <div class="content-card">
                 <img src="images/newsletter1.jpg" alt="Newsletter Thumbnail" class="card-thumb">
                 <div class="card-body">
-                    <h3>October '24: Inflation Trends</h3>
+                    <h3>December '25: Inflation Trends</h3>
                     <p>A deep dive into post-pandemic inflation using R and Python visualization tools.</p>
                     <a href="path-to-pdf.pdf" class="btn btn-primary" target="_blank">View Newsletter</a>
-                </div>
-            </div>
-
-            <div class="content-card">
-                <img src="images/newsletter2.jpg" alt="Newsletter Thumbnail" class="card-thumb">
-                <div class="card-body">
-                    <h3>September '24: Crypto Analysis</h3>
-                    <p>Student project analyzing Bitcoin volatility compared to traditional stocks.</p>
-                    <a href="#" class="btn btn-primary">View Newsletter</a>
                 </div>
             </div>
         </div>
