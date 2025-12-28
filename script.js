@@ -79,3 +79,8 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+/* --- MOBILE MENU TOGGLE --- */
+function toggleMenu() {
+    const menu = document.getElementById('nav-menu');
+    menu.classList.toggle('active');
+}
