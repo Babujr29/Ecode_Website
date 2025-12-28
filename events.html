@@ -3,50 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events | ECODE</title>
+    <title>Insights | ECODE</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav>
-    <ul>
+        <nav>
+        <div class="logo">ECODE</div> <div class="menu-toggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+    <ul id="nav-menu">
         <li><a href="index.html">Home</a></li>
-        <li><a href="insights.html">Insights</a></li>
+        <li><a href="insights.html">Newsletter</a></li>
         <li><a href="events.html">Events</a></li>
         <li><a href="mission.html">Mission</a></li>
         <li><a href="Ecode.html">About ECODE</a></li>
         
         <li class="social-separator">|</li>
-        <li><a href="https://www.instagram.com/ecode.brc/" target="_blank"><i class="fab fa-instagram"></i></a></li>
-        <li><a href="https://www.linkedin.com/in/department-of-economics-christ-deemed-to-be-university-bgr-campus-4a4a1b23a/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+
+        <li class="mobile-socials">
+            <a href="https://www.instagram.com/ecode.brc/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+            <a href="https://www.linkedin.com/in/department-of-economics-christ-deemed-to-be-university-bgr-campus-4a4a1b23a/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+        </li>
     </ul>
 </nav>
 
     <section class="page-container">
-        <h1>Upcoming <span class="ecode-highlight">Events</span></h1>
-        <p class="subtitle">Workshops, seminars, and hackathons.</p>
+        <h1>Insight by <span class="ecode-highlight">ECODE</span></h1>
+        <p class="subtitle">Monthly analysis and projects by our students.</p>
 
         <div class="card-grid">
             <div class="content-card">
-                <img src="images/event1.jpg" alt="Event" class="card-thumb">
+                <img src="images/newsletter1.jpg" alt="Newsletter Thumbnail" class="card-thumb">
                 <div class="card-body">
-                    <h3>Data Science Bootcamp</h3>
-                    <p>Date: 20th Jan 2025. Learn the basics of Python for Economics.</p>
-                    <a href="https://google-form-link.com" class="btn btn-primary" target="_blank">Register</a>
-                </div>
-            </div>
-
-             <div class="content-card">
-                <img src="images/event2.jpg" alt="Event" class="card-thumb">
-                <div class="card-body">
-                    <h3>Guest Lecture: Global Markets</h3>
-                    <p>Date: 5th Feb 2025. An interactive session with industry experts.</p>
-                    <a href="#" class="btn btn-primary" target="_blank">Register</a>
+                    <h3>December '25: Inflation Trends</h3>
+                    <p>A deep dive into post-pandemic inflation using R and Python visualization tools.</p>
+                    <a href="path-to-pdf.pdf" class="btn btn-primary" target="_blank">View Newsletter</a>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <div class="chatbot-toggler" onclick="toggleChat()">💬</div>
     <div class="chatbot-window" id="chat-window">
         <div class="chat-header">Gauri (AI Assistant)</div>
