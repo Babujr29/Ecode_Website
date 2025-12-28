@@ -305,3 +305,124 @@ nav ul li a:hover .fa-linkedin {
     color: #0077b5; /* LinkedIn Blue */
     text-shadow: 0 0 10px rgba(0, 119, 181, 0.6); /* Glow effect */
 }
+/* --- MOBILE RESPONSIVENESS (Premium & Clean) --- */
+
+/* 1. Base Mobile Settings (max-width: 768px) */
+@media (max-width: 768px) {
+
+    /* --- NAVIGATION BAR --- */
+    nav {
+        justify-content: space-between; /* Pushes logo left, burger right */
+        padding: 15px 20px;
+        align-items: center;
+        background: rgba(5, 5, 7, 0.95); /* Darker bg for readability */
+    }
+
+    .logo {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: #fff;
+        display: block; /* Visible on mobile */
+    }
+
+    .menu-toggle {
+        display: block; /* Show hamburger icon */
+        font-size: 1.5rem;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    /* The Dropdown Menu */
+    nav ul {
+        position: fixed;
+        top: 60px; /* Below the navbar */
+        left: 0;
+        width: 100%;
+        height: 0; /* Hidden by default */
+        background: #0a0a0a;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        overflow: hidden; /* Hide content when closed */
+        transition: height 0.4s ease-in-out; /* Smooth slide effect */
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* When menu is open (JavaScript adds this class) */
+    nav ul.active {
+        height: 350px; /* Expands to show links */
+        padding-top: 20px;
+    }
+
+    nav ul li {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .social-separator { display: none; } /* Hide the pipe | symbol on mobile */
+    
+    .mobile-socials {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 10px;
+        border: none;
+    }
+
+    /* --- HERO SECTION --- */
+    .hero-container {
+        grid-template-columns: 1fr; /* Stack vertically */
+        padding: 40px 20px;
+        text-align: center;
+        gap: 40px;
+    }
+
+    h1 { font-size: 2.2rem; } /* Smaller Heading */
+    .subtitle { font-size: 1.1rem; margin-bottom: 20px; }
+    
+    .intro-text p {
+        text-align: center; /* Center text for cleaner look */
+        font-size: 1rem;
+    }
+
+    /* --- ANNOUNCEMENTS --- */
+    .announcement-box {
+        height: 300px; /* Shorter box so it doesn't take whole screen */
+        margin-top: 20px;
+    }
+
+    /* --- MEMBERS & CARDS --- */
+    .members-section, .page-container {
+        padding: 40px 20px;
+    }
+
+    .heads-grid {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .members-grid {
+        grid-template-columns: 1fr 1fr; /* 2 members per row */
+        gap: 15px;
+    }
+    
+    .card-grid {
+        grid-template-columns: 1fr; /* 1 Event card per row (Big & Clear) */
+    }
+
+    /* --- CHATBOT FIX --- */
+    .chatbot-window {
+        width: 90%; /* Almost full width */
+        right: 5%;
+        left: 5%;
+        bottom: 80px;
+    }
+}
+
+/* DESKTOP DEFAULTS (Keep these hidden on PC) */
+@media (min-width: 769px) {
+    .menu-toggle { display: none; }
+    .logo { display: none; } /* Hide text logo on desktop if you rely on center nav */
+}
