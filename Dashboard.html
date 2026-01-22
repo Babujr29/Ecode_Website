@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economics Department Club Membership Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: #4ade80;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Dynamic Stats Section */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* Filters Section */
+        .filters-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+        }
+
+        .filters-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 0.95em;
+        }
+
+        input[type="text"],
+        input[type="search"],
+        select {
+            padding: 10px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95em;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="search"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        /* Multi-select info */
+        .multi-select-info {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Charts Section */
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .chart-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .chart-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        canvas {
+            max-height: 400px;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            color: #1565c0;
+        }
+
+        .info-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Table Section */
+        .table-container {
+            margin-top: 30px;
+        }
+
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .table-info {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .table-box {
+            overflow-x: auto;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .na-badge {
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .club-badge {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        .type-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .type-dept {
+            background: #cfe9ff;
+            color: #0066cc;
+        }
+
+        .type-uni {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .type-cultural {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .type-prod {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .type-ncc {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .type-unknown {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .pagination button.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Department of Economics Club Dashboard</h1>
+            <p class="subtitle">Comprehensive Club Membership Details for Academic Year 2025-26</p>
+            
+        </header>
+
+        <!-- Dynamic Statistics Cards -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-label">Total Students</div>
+                <div class="stat-value" id="statTotalStudents">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Students in Clubs</div>
+                <div class="stat-value" id="statActiveClubs">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Clubs</div>
+                <div class="stat-value" id="statUniqueClubs">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg Clubs/Student</div>
+                <div class="stat-value" id="statAvgClubs">-</div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-container">
+            <div class="filters-title">🔍 Filters</div>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="searchName">Search by Name:</label>
+                    <input type="search" id="searchName" placeholder="Enter student name...">
+                </div>
+                <div class="filter-group">
+                    <label for="searchReg">Registration Number:</label>
+                    <input type="search" id="searchReg" placeholder="Enter reg number...">
+                </div>
+            </div>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="filterYear">Year:</label>
+                    <select id="filterYear">
+                        <option value="">All Years</option>
+                    </select>
+                    <div class="multi-select-info">Hold Ctrl/Cmd to select multiple years</div>
+                </div>
+                <div class="filter-group">
+                    <label for="filterClub">Club:</label>
+                    <select id="filterClub">
+                        <option value="">All Clubs</option>
+                    </select>
+                    <div class="multi-select-info">Hold Ctrl/Cmd to select multiple clubs</div>
+                </div>
+                <div class="filter-group">
+                    <label for="filterType">Club Type:</label>
+                    <select id="filterType">
+                        <option value="">All Types</option>
+                    </select>
+                    <div class="multi-select-info">Hold Ctrl/Cmd to select multiple types</div>
+                </div>
+            </div>
+            <div class="filter-row">
+                <div class="button-group" style="flex: 1;">
+                    <button class="btn-primary" onclick="applyFilters()">✓ Apply Filters</button>
+                    <button class="btn-secondary" onclick="resetFilters()">↺ Reset All</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-container">
+            <div class="chart-box">
+                <div class="chart-title">Top Clubs by Membership</div>
+                <canvas id="chartTopClubs"></canvas>
+            </div>
+            <div class="chart-box">
+                <div class="chart-title">Year Distribution</div>
+                <canvas id="chartYear"></canvas>
+            </div>
+            <div class="chart-box">
+                <div class="chart-title">Club Type Distribution</div>
+                <canvas id="chartType"></canvas>
+            </div>
+            <div class="chart-box">
+                <div class="chart-title">Club Composition by Year</div>
+                <canvas id="chartComposition"></canvas>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-container">
+            <div class="table-controls">
+                <span class="table-info">Showing <strong id="tableRecordCount">0</strong> records</span>
+                <button class="btn-primary" onclick="toggleTable()">Show/Hide Detailed Table</button>
+            </div>
+            <div id="tableBox" class="table-box hidden">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Reg Number</th>
+                            <th>Name</th>
+                            <th>Year</th>
+                            <th>Club</th>
+                            <th>Club Type</th>
+                            <th>Position</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CSV Data Parser
+        function parseCSVData() {
+            const csvContent = `Registration Number,Name,Class,Club,Club_Type,Position
+2533301,Aanya Agarwal,First Year,No Club,No Club,
+2533302,Aayoshi Parui,First Year,ACC,University Club,Member
+2533302,Aayoshi Parui,First Year,Education and Skill development,University Club,Member
+2533302,Aayoshi Parui,First Year,Econtago,Departmnet Club ,Volunteer
+2533303,Agasthithayaagaran Saravanen,First Year,Econtago,Departmnet Club ,Volunteer
+2533303,Agasthithayaagaran Saravanen,First Year,Debsoc,University Club,Volunteer
+2533303,Agasthithayaagaran Saravanen,First Year,SDG,Departmnet Club ,Volunteer
+2533304,Agastya Pallavi Shethia,First Year,SWO,University Club,Logistics
+2533305,Akankshya Pradhan,First Year,SWO,University Club,Logistics
+2533305,Akankshya Pradhan,First Year,Zariya,Production house,Member
+2533306,Amritha Elizabeth Shibu,First Year,Econtago,Departmnet Club ,Emcee Committee
+2533306,Amritha Elizabeth Shibu,First Year,SDG,Departmnet Club ,Emcee Committee
+2533306,Amritha Elizabeth Shibu,First Year,CAPS,University Club,Research volunteer
+2533307,Ananya Mittal,First Year,Econtago,Departmnet Club ,Working committee
+2533307,Ananya Mittal,First Year,Silent Scream,Cultural Team ,Working committee
+2533309,Anshuman S. Vasisht,First Year,SWO,University Club,Logistics
+2533310,Anuj Bhargava,First Year,Niche,University Club,Marketing and research development analyst 
+2533311,Anushka Ajmera,First Year,Econtago,Departmnet Club ,Working committee
+2533311,Anushka Ajmera,First Year,Bulls and Bears,University Club,Working committee
+2533311,Anushka Ajmera,First Year,SWO,University Club,Working committee
+2533311,Anushka Ajmera,First Year,Alumni Relation Club,University Club,Working committee
+2533312,Apeksha Vemali,First Year,SWO,University Club,Emcee Committee
+2533312,Apeksha Vemali,First Year,SDG,Departmnet Club ,Member
+2533312,Apeksha Vemali,First Year,Debsoc,University Club,Member
+2533312,Apeksha Vemali,First Year,TNC,Cultural Team ,Member
+2533312,Apeksha Vemali,First Year,Zariya,Production house,Member
+2533313,Ardra Jyothi Kumar,First Year,Econtago,Departmnet Club ,Member
+2533313,Ardra Jyothi Kumar,First Year,Cusbma,University Club,Member
+2533313,Ardra Jyothi Kumar,First Year,SWO,University Club,Member
+2533313,Ardra Jyothi Kumar,First Year,Zariya,Production house,Member
+2533313,Ardra Jyothi Kumar,First Year,ICC,University Club,Member
+2533314,Arunima Jha,First Year,SDG,Departmnet Club ,Logistics
+2533314,Arunima Jha,First Year,NatyaVriksha,Cultural Team ,Member
+2533316,Avana Paik,First Year,No Club,No Club,
+2533319,Cattamanchi Parthiv Reddy,First Year,SWO,University Club,Volunteer
+2533320,Darshita Singh,First Year,NCC,NCC,Cadet
+2533322,Divyansh Aggarwal,First Year,SWO,University Club,Member
+2533323,Eeshani Srivastava,First Year,Cusbma,University Club,Member
+2533323,Eeshani Srivastava,First Year,Debsoc,University Club,Member
+2533323,Eeshani Srivastava,First Year,CSA,University Club,Member
+2533323,Eeshani Srivastava,First Year,Vingnette Windows,University Club,Member
+2533324,Erin Braggs,First Year,ACC,University Club,Member
+2533324,Erin Braggs,First Year,Choir,University Club,Member
+2533325,Esha Mohan Naidu,First Year,Insolito,Cultural Team ,Member
+2533325,Esha Mohan Naidu,First Year,Analytica,Departmnet Club ,Member
+2533325,Esha Mohan Naidu,First Year,Student Council ,University Club,Member
+2533331,Kalpanadevi D,First Year,No Club,No Club,
+2533333,Manmeet Kaur Oberoi,First Year,Pravah,University Club,Member
+2533333,Manmeet Kaur Oberoi,First Year,Vingnette Windows,University Club,Member
+2533333,Manmeet Kaur Oberoi,First Year,Equinomica,Departmnet Club ,Member
+2533334,Megan Anriya Dcruz,First Year,SDG,Departmnet Club ,Member
+2533334,Megan Anriya Dcruz,First Year,Shades,Cultural Team ,Member
+2533334,Megan Anriya Dcruz,First Year,Econtago,Departmnet Club ,Member
+2533335,Mohammad Zayn Shams,First Year,No Club,No Club,
+2533336,Nayana Sheelavant,First Year,SDG,Departmnet Club ,Member
+2533336,Nayana Sheelavant,First Year,Vingnette Windows,University Club,Member
+2533336,Nayana Sheelavant,First Year,CSA,University Club,Member
+2533338,Prachi Shah,First Year,Zariya,Production house,Member
+2533338,Prachi Shah,First Year,Debsoc,University Club,Member
+2533338,Prachi Shah,First Year,Ecode,Departmnet Club ,Member
+2533338,Prachi Shah,First Year,Econtago,Departmnet Club ,Volunteer
+2533338,Prachi Shah,First Year,SWO,University Club,Member
+2533339,Prajeet S,First Year,No Club,No Club,
+2533340,Pranav,First Year,Analytica,Departmnet Club ,Member
+2533340,Pranav,First Year,Equinomica,Departmnet Club ,Member
+2533340,Pranav,First Year,SWO,University Club,Member
+2533340,Pranav,First Year,CAPS,University Club,Member
+2533341,Pratiti Das,First Year,Econtago,Departmnet Club ,Volunteer
+2533341,Pratiti Das,First Year,Equinomica,Departmnet Club ,Member
+2533342,Raghav Gupta,First Year,Centre for Service Learing,University Club,Member
+2533343,Raibat Roy Choudhury,First Year,No Club,No Club,
+2533344,Ria Sharma,First Year,CAPS,University Club,Member
+2533345,Roopika Yallamelli,First Year,TNC,Cultural Team ,Member
+2533346,Sakhi Agarwal,First Year,CAPS,University Club,Member
+2533347,Shivanshi Mohapatra,First Year,Pravah,University Club,Member
+2533348,Shreeya Ramdass Bellie,First Year,Vingnette Windows,University Club,Member
+2533349,Shrinjini Samanta,First Year,CAPS,University Club,Member
+2533352,Siya Anand,First Year,Pravah,University Club,Member
+2533353,Soumili Rakshit,First Year,Synapse,University Club,Member
+2533353,Soumili Rakshit,First Year,Equinomica,Departmnet Club ,Member
+2533353,Soumili Rakshit,First Year,No Club,No Club,Member
+2533354,Srinidhi Susarla,First Year,Equinomica,Departmnet Club , Assistant graphic designer 
+2533354,Srinidhi Susarla,First Year,Econtago,Departmnet Club ,Media
+2533354,Srinidhi Susarla,First Year,Alumni Relation Club,University Club,Documentation 
+2533354,Srinidhi Susarla,First Year,Orpheous,Production house,Actor 
+2533355,Sujishnu Bhattacharya,First Year,SWO,University Club,Member
+2533356,Thiruharan K,First Year,Finance and Economics Cell,University Club,Member
+2533356,Thiruharan K,First Year,SWO,University Club,Member
+2533356,Thiruharan K,First Year,Zariya,Production house,Member
+2533357,Udditee Kapoor,First Year,SWO,University Club,Member
+2533358,Upanshu Sil,First Year,No Club,No Club,Member
+2533359,Uppalapati Harshith,First Year,Zariya,Production house,Member
+2533360,Vaibhavi Man,First Year,CAPS,University Club,Member
+2533361,Vibhi Maheshwari,First Year,Toastmasters,University Club,Member
+2533362,R S Vethavarna,First Year,Cusbma,University Club,Member
+2533362,R S Vethavarna,First Year,Vingnette Windows,University Club,Member
+2533363,Krina Vagadia,First Year,NCC,NCC,Member
+2533365,Triesha Venkatesh Hosur,First Year,NCC,NCC,BRC Campus representative a 3rd year NCC Cadet
+2533366,Riya Boban,First Year,No club,No Club,
+2433301,Attipalli Snija Thanishka Reddy,Second Year,Cusbma,University Club,Member
+2433301,Attipalli Snija Thanishka Reddy,Second Year,Zariya,Production house,Member
+2433301,Attipalli Snija Thanishka Reddy,Second Year,Electoral Literacy Club,University Club,Member
+2433302,A Suchetas Ram,Second Year,Econtago,Departmnet Club ,Logistics Head
+2433302,A Suchetas Ram,Second Year,Zariya,Production house,Member
+2433302,A Suchetas Ram,Second Year,CSA,University Club,Member
+2433302,A Suchetas Ram,Second Year,Debsoc,University Club,Member
+2433303,Aakash Ellis,Second Year,Service Learing Cell ,Departmnet Club ,Member
+2433303,Aakash Ellis,Second Year,Econtago,Departmnet Club ,Member
+2433303,Aakash Ellis,Second Year,Choir,University Club,Member
+2433305,Adarsh Kumar Bhagawati,Second Year,Orpheous,Production house,Member
+2433305,Adarsh Kumar Bhagawati,Second Year,Econtago,Departmnet Club ,Media Head
+2433305,Adarsh Kumar Bhagawati,Second Year,SWO,University Club,Member
+2433306,Aiswarya Francis,Second Year,Econtago,Departmnet Club ,Member
+2433306,Aiswarya Francis,Second Year,Service Learing Cell ,Departmnet Club ,Member
+2433306,Aiswarya Francis,Second Year,Gender Champions Club,Departmnet Club ,Department Representative
+2433308,Alvin Samuel Roy,Second Year,Econtago,Departmnet Club ,Member
+2433308,Alvin Samuel Roy,Second Year,Service Learing Cell ,Departmnet Club ,Member
+2433309,Alysa Srivastava,Second Year,SDG,Departmnet Club ,Member
+2433310,Ananya Gupta,Second Year,Econtago,Departmnet Club ,Member
+2433310,Ananya Gupta,Second Year,SDG,Departmnet Club ,Member
+2433310,Ananya Gupta,Second Year,Inquest,University Club,Member
+2433310,Ananya Gupta,Second Year,Zariya,Production house,Member
+2433311,Ananya Rathi,Second Year,Econtago,Departmnet Club ,Member
+2433315,Areen Bhardwaj,Second Year,No Club,No Club,
+2433316,Arju Sinha,Second Year,Econtago,Departmnet Club ,Member
+2433316,Arju Sinha,Second Year,Zariya,Production house,Backstage Subhead
+2433316,Arju Sinha,Second Year,Cusbma,University Club,Member
+2433316,Arju Sinha,Second Year,CPCG,University Club,Internship Representative
+2433319,Bagheshri T S,Second Year,Ecode,Departmnet Club ,Sub Head
+2433320,Balaji Venkatachalam,Second Year,Econtago,Departmnet Club ,Member
+2433320,Balaji Venkatachalam,Second Year,Equinomica,Departmnet Club ,Member
+2433321,Barnali Sahu,Second Year,CSA,University Club,Cohort Representative
+2433321,Barnali Sahu,Second Year,Econtago,Departmnet Club ,Member
+2433321,Barnali Sahu,Second Year,Service Learing Cell ,Departmnet Club ,Member
+2433321,Barnali Sahu,Second Year,Analytica,Departmnet Club ,Member
+2433323,Christo Varkey Joseph,Second Year,Choir,University Club,Member
+2433324,Diya Premchandani,Second Year,Bulls and Bears,University Club,Member
+2433324,Diya Premchandani,Second Year,Inquest,University Club,Documentation Head
+2433325,Eemon Saha,Second Year,No Club,No Club,
+2433326,Geethanjali S Pillai,Second Year,CSA,University Club,Cohort Representative
+2433327,Harshita Sinha,Second Year,CSA,University Club,Member
+2433327,Harshita Sinha,Second Year,SDG,Departmnet Club ,Member
+2433330,Jasmeet Kaur,Second Year,Econtago,Departmnet Club ,Member
+2433330,Jasmeet Kaur,Second Year,Service Learing Cell ,Departmnet Club ,Member
+2433333,Keerthana V,Second Year,No Club,No Club,
+2433334,Krishna S,Second Year,Service Learing Cell ,Departmnet Club ,Member
+2433334,Krishna S,Second Year,Gender Champions Club,Departmnet Club ,Head
+2433336,Lehar Jain,Second Year,Econtago,Departmnet Club ,Junior Secretary
+2433336,Lehar Jain,Second Year,Zariya,Production house,Member
+2433336,Lehar Jain,Second Year,SWO,University Club,Member
+2433337,Maahi Guleria,Second Year,Cusbma,University Club,Member
+2433337,Maahi Guleria,Second Year,Alumni Relation Club,University Club,Member
+2433337,Maahi Guleria,Second Year,Banjaraas,Cultural Team ,Member
+2433338,Manashwini Chauhan,Second Year,Cusbma,University Club,Cusbma X Head
+2433338,Manashwini Chauhan,Second Year,Alumni Relation Club,University Club,Emcee Head
+2433338,Manashwini Chauhan,Second Year,SWO,University Club,Member
+2433338,Manashwini Chauhan,Second Year,Bulls and Bears,University Club,Investment division co-head
+2433338,Manashwini Chauhan,Second Year,Zariya,Production house,Member
+2433339,Mihir Tandon,Second Year,NCC,NCC,Member
+2433340,Mokshitha M R,Second Year,Service Learing Cell ,Departmnet Club ,Head
+2433341,Mridula Arora,Second Year,Econtago,Departmnet Club ,Emcee & Documentation Head
+2433341,Mridula Arora,Second Year,Alumni Relation Club,University Club,Member
+2433341,Mridula Arora,Second Year,SWO,University Club,Member
+2433342,Mudit Arora,Second Year,Econtago,Departmnet Club ,Events Head
+2433342,Mudit Arora,Second Year,SWO,University Club,Member
+2433342,Mudit Arora,Second Year,LIP,Production house,Mime Head
+2433342,Mudit Arora,Second Year,Student Council ,University Club,Class Representative
+2433343,Naireet Choudhury,Second Year,No Club,No Club,
+2433344,Nandika Pasari,Second Year,Equinomica,Departmnet Club ,Member
+2433346,Neha Rebecca Mathew,Second Year,SDG,Departmnet Club ,Member
+2433346,Neha Rebecca Mathew,Second Year,SWO,University Club,Member
+2433346,Neha Rebecca Mathew,Second Year,Service Learing Cell ,Departmnet Club ,Member
+2433347,Nilesh Sharma,Second Year,NCC,NCC,Member
+2433351,Pavni Agarwal,Second Year,Econtago,Departmnet Club ,Member
+2433351,Pavni Agarwal,Second Year,SDG,Departmnet Club ,Member
+2433354,Putturu Hemanya,Second Year,Cusbma,University Club,Member
+2433354,Putturu Hemanya,Second Year,Zariya,Production house,Member
+2433354,Putturu Hemanya,Second Year,Electoral Literacy Club,University Club,Member
+2433354,Putturu Hemanya,Second Year,Finance and Economics Cell,University Club,Member
+2433356,Rayirth Kulshrestha,Second Year,SWO,University Club,Member
+2433356,Rayirth Kulshrestha,Second Year,Inquest,University Club,Finance & Sponsorship Head
+2433357,Reeti Garg,Second Year,Econtago,Departmnet Club ,Member
+2433357,Reeti Garg,Second Year,Zariya,Production house,Member
+2433357,Reeti Garg,Second Year,SWO,University Club,Member
+2433359,S Kaushik,Second Year,Vadacurry ,Cultural Team ,Member
+2433360,S S S Chandradithya,Second Year,No Club,No Club,
+2433361,Saanvi Venishetty,Second Year,Econtago,Departmnet Club ,Member
+2433361,Saanvi Venishetty,Second Year,Zariya,Production house,Member
+2433361,Saanvi Venishetty,Second Year,Ecode,Departmnet Club ,Member
+2433361,Saanvi Venishetty,Second Year,Student Council ,University Club,Class Representative
+2433363,Sadasivapetkar Sai Sathwik,Second Year,Zariya,Production house,Finance & Media Head
+2433365,Sanskruthi B B,Second Year,Ecode,Departmnet Club ,Sub Head
+2433367,Shaik Muhammad Raihaan,Second Year,Econtago,Departmnet Club ,Member
+2433367,Shaik Muhammad Raihaan,Second Year,Debsoc,University Club,Member
+2433367,Shaik Muhammad Raihaan,Second Year,Student Council ,University Club,School Student Council
+2433367,Shaik Muhammad Raihaan,Second Year,Zariya,Production house,Backstage Sub-Head
+2433368,Shambhuraje Nimbalkar Khardekar,Second Year,Econtago,Departmnet Club ,Junior Secretary
+2433369,Siri Dandur Chandrashekar,Second Year,Zariya,Production house,Logistics Head
+2433369,Siri Dandur Chandrashekar,Second Year,Future Leader Program,University Club,Member
+2433372,Suhani Goel,Second Year,Alumni Relation Club,University Club,Member
+2433372,Suhani Goel,Second Year,Equinomica,Departmnet Club ,Member
+2433372,Suhani Goel,Second Year,Debsoc,University Club,Member
+2433372,Suhani Goel,Second Year,SDG,Departmnet Club ,Member
+2433374,Tanya Sunil Sakharkar,Second Year,SWO,University Club,Member
+2433374,Tanya Sunil Sakharkar,Second Year,Orpheous,Production house,Member
+2433379,Vedant Vikram Singh,Second Year,Service Learing Cell ,Departmnet Club ,Member
+2433380,Vidisha Bhartia,Second Year,Zariya,Production house,Member
+2433380,Vidisha Bhartia,Second Year,Alumni Relation Club,University Club,Member
+2433381,Vignesh J,Second Year,Equinomica,Departmnet Club ,Member
+2433381,Vignesh J,Second Year,Vadacurry ,Cultural Team ,Member
+2433384,Rida Fathima,Second Year,Debsoc,University Club,Member
+2433384,Rida Fathima,Second Year,CSA,University Club,Member
+2433384,Rida Fathima,Second Year,Prolixus,University Club,Member
+2433384,Rida Fathima,Second Year,Orpheous,Production house,Member
+2433384,Rida Fathima,Second Year,SDG,Departmnet Club ,Member
+2433385,Ayush Agrawal,Second Year,Zariya,Production house,Member
+2433386,Aashita Agarwal,Second Year,SDG,Departmnet Club ,Member
+2433386,Aashita Agarwal,Second Year,Finance and Economics Cell,University Club,Member
+2433387,Prachi Ajit Thakur,Second Year,CAPS,University Club,Member
+2333302,Aaryan Dubey,Third Year,No Club,No Club,
+2333304,Ajitesh,Third Year,Econtago,Departmnet Club ,Sponsorship Head 
+2333304,Ajitesh,Third Year,Zariya,Production house,Member
+2333305,Akshita,Third Year,No Club,No Club,
+2333306,Alda,Third Year,Analytica,Departmnet Club ,Member
+2333307,Ananya,Third Year,CPCG,University Club,Placement Representative
+2333310,Aryan Choudhary,Third Year,No Club,No Club,
+2333311,Ashish,Third Year,No Club,No Club,
+2333312,Beryl,Third Year,ACC,University Club,Member
+2333312,Beryl,Third Year,SDG,Departmnet Club ,Department Representative 
+2333313,Bhoomika Jain,Third Year,CAPS,University Club,Media and Promotions Team Lead
+2333313,Bhoomika Jain,Third Year,Analytica,Departmnet Club ,Student Representative
+2333315,Dev Bhardwaj,Third Year,No Club,No Club,
+2333316,Gouri P,Third Year,Ecode,Departmnet Club ,Technical Member
+2333316,Gouri P,Third Year,Econtago,Departmnet Club ,Media Head 
+2333317,Harshita Saha,Third Year,CAPS,University Club,Project Lead
+2333318,Heer Domadia,Third Year,Service Learing Cell ,Departmnet Club ,Events and Logistics Head
+2333319,Jaishnavy,Third Year,Toastmasters,University Club,President
+2333319,Jaishnavy,Third Year,NatyaVriksha,Cultural Team ,Documentation Head
+2333320,Jayaditya Sridhar,Third Year,No Club,No Club,-
+2333321,Jenani,Third Year,Student Council ,University Club,SSC
+2333321,Jenani,Third Year,Library Comimitte,University Club,Events head
+2333321,Jenani,Third Year,Vadacurry ,Cultural Team ,Team head
+2333322,Jotham ,Third Year,Econtago,Departmnet Club ,CAP head
+2333322,Jotham ,Third Year,MACS,University Club,Assistant Editor/Member
+2333322,Jotham ,Third Year,Analytica,Departmnet Club ,Volunteer at the Sessions and Outreach Wing 
+2333323,Kancharla Chakri,Third Year,CSA,University Club,Volunteer
+2333324,Khushi,Third Year,No Club,No Club,-
+2333326,Kushal Surana,Third Year,Econtago,Departmnet Club ,Secretary
+2333327,Abhiram ,Third Year,Insolito,Cultural Team ,Member
+2333328,M A Mythreyi ,Third Year,Equinomica,Departmnet Club ,Member
+2333328,M A Mythreyi ,Third Year,NCC,NCC,Cadet Captain(overall head of Christ University)
+2333328,M A Mythreyi ,Third Year,Library Comimitte,University Club,Events head
+2333328,M A Mythreyi ,Third Year,E Cell,University Club,Core Member
+2333329,Manav Singla,Third Year,Analytica,Departmnet Club ,Member
+2333329,Manav Singla,Third Year,CSA,University Club,Member
+2333329,Manav Singla,Third Year,Poesis,University Club,Member
+2333331,Meenaakshi R Nair,Third Year,NatyaVriksha,Cultural Team ,Member
+2333331,Meenaakshi R Nair,Third Year,Student Council ,University Club,USC
+2333333,Naiya Kakkar,Third Year,Econtago,Departmnet Club ,Sponsorship and finance Head
+2333334,Neha ,Third Year,ACC,University Club,Choir Head
+2333334,Neha ,Third Year,Choir,University Club,Member
+2333337,Rajdeep ,Third Year,No Club,No Club,-
+2333338,Reet,Third Year,Econtago,Departmnet Club ,Joint Secretary
+2333340,Rituparna,Third Year,No Club,No Club,-
+2333341,S Goutham,Third Year,Econtago,Departmnet Club ,Logistics Head
+2333341,S Goutham,Third Year,SDG,Departmnet Club ,Logistics Head
+2333343,Sania Thakrar,Third Year,Banjaraas,Cultural Team ,Team head
+2333345,Sebin,Third Year,NCC,NCC,Cadet
+2333345,Sebin,Third Year,Silent Scream,Cultural Team ,Head
+2333348,Shreya Srishti ,Third Year,Laasya,Cultural Team ,Head
+2333349,Shubham Bhattyacharya,Third Year,No Club,No Club,-
+2333352,Tanish Bajaj,Third Year,NCC,NCC,Cadet
+2333355,Udaar Bhatnagar,Third Year,No Club,No Club,-
+2333356,Vanditha ,Third Year,SWO,University Club,Overall Head
+2333358,Areha Kumari,Third Year,SWO,University Club,Volunteer
+2333402,Aayan Nariyal,Third Year,No Club,No Club,
+2333403,Abhijith A Vasudev,Third Year,Zariya,Production house,Member
+2333404,Abhiuday Mazumdar,Third Year,No Club,No Club,
+2333405,Aditi Chauhan,Third Year,Econtago,Departmnet Club ,Guest relations and hospitality Head
+2333408,Akansha Agarwal,Third Year,SDG,Departmnet Club ,Campus Representative in SDG  
+2333408,Akansha Agarwal,Third Year,SWO,University Club,Committee member in SWO
+2333409,Alviya Maria John,Third Year,Debsoc,University Club,Literary Wing Head
+2333409,Alviya Maria John,Third Year,CUDS,University Club,Joint Secretary
+2333411,Anandi,Third Year,No Club,No Club,
+2333412,Ankita Bajoria,Third Year,SWO,University Club,Art Committee Head
+2333413,Annesha Sengupta,Third Year,SDG,Departmnet Club ,Overall Head for the department of Economics
+2333415,Anwesha Sinha,Third Year,Equinomica,Departmnet Club ,Associate Editor
+2333415,Anwesha Sinha,Third Year,Toastmasters,University Club,Vice President
+2333416,Archa A J,Third Year,Econtago,Departmnet Club ,Treasurer
+2333417,Ayush Jain,Third Year,No Club,No Club,
+2333420,Dakshita Bahal,Third Year,SWO,University Club,Art Committee Head
+2333421,Devanarayanan A,Third Year,SDG,Departmnet Club ,Media and Tech Head
+2333421,Devanarayanan A,Third Year,Bulls and Bears,University Club,Research Division Member
+2333422,Dyutiman Basu,Third Year,Choir,University Club,Member
+2333423,Eesha Bamangaya,Third Year,NatyaVriksha,Cultural Team ,Member
+2333423,Eesha Bamangaya,Third Year,Equinomica,Departmnet Club ,Associate Editor
+2333424,Esther Ann Cheriyan,Third Year,CAPS,University Club,Team lead of the One-on-One Peer Training Wing 
+2333424,Esther Ann Cheriyan,Third Year,SDG,Departmnet Club ,Hospitality Head
+2333425,Gauri Agarwal,Third Year,Ecode,Departmnet Club ,Overall Head
+2333425,Gauri Agarwal,Third Year,CAPS,University Club,Operations Head
+2333426,Hanna Grace Saji,Third Year,No Club,No Club,
+2333428,Kabir Tandon,Third Year,Econtago,Departmnet Club ,Communications and promotions Head
+2333429,Khush Sawansukha,Third Year,No Club,No Club,
+2333430,Khushi Sandip Tayal,Third Year,SWO,University Club,Art committee head
+2333432,Kushagra Singh,Third Year,Bulls and Bears,University Club,Research Division Head
+2333432,Kushagra Singh,Third Year,Equinomica,Departmnet Club ,Assistant Editor 
+2333433,Manan Arora,Third Year,E Cell,University Club,Core Member
+2333437,Parth Thakur,Third Year,No Club,No Club,
+2333438,Polaki Mythri,Third Year,Equinomica,Departmnet Club ,Assistant Editor 
+2333438,Polaki Mythri,Third Year,SDG,Departmnet Club ,Events Head
+2333441,R Kishore Kumar,Third Year,Vadacurry ,Cultural Team ,Overall Head
+2333441,R Kishore Kumar,Third Year,SDG,Departmnet Club ,Social media Head
+2333441,R Kishore Kumar,Third Year,Equinomica,Departmnet Club ,Graphic Designer
+2333442,Raihan Sadath,Third Year,Econtago,Departmnet Club ,Events Head
+2333445,Rose Jacob,Third Year,No Club,No Club,
+2333446,Sanjana Kolakkunnath,Third Year,No Club,No Club,
+2333447,Saravana Arjun S,Third Year,No Club,No Club,
+2333448,Saumya,Third Year,SDG,Departmnet Club ,Documentation Head
+2333448,Saumya,Third Year,Equinomica,Departmnet Club ,Assistant Editor
+2333448,Saumya,Third Year,Alumni Relation Club,University Club,Documentation member
+2333452,Shivam,Third Year,Ecode,Departmnet Club ,Overall Head
+2333453,Shreeji Anand,Third Year,Econtago,Departmnet Club ,Emcee and Documentation 
+2333455,Siya Gupta,Third Year,No Club,No Club,
+2333456,Tanashavi,Third Year,No Club,No Club,
+2333457,Yuvraj,Third Year,No Club,No Club,
+2333458,Ishi,Third Year,No Club,No Club,`;
+
+            const lines = csvContent.split('\n');
+            const headers = lines[0].split(',');
+            const consolidated = [];
+            
+            // Track unique students for statistics
+            const uniqueStudents = new Set();
+            const studentsInClubs = new Set();
+            const uniqueClubs = new Set();
+            const years = new Set();
+            const clubTypes = new Set();
+            
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                const cells = line.split(',');
+                if (cells.length < 6) continue;
+                
+                const record = {
+                    reg_number: cells[0]?.trim() || '',
+                    name: cells[1]?.trim() || '',
+                    year: cells[2]?.trim() || '',
+                    club: cells[3]?.trim() || '',
+                    club_type: cells[4]?.trim() || '',
+                    position: cells[5]?.trim() || ''
+                };
+                
+                // Clean up club type (remove extra spaces)
+                record.club_type = record.club_type.replace('Departmnet Club', 'Department Club')
+                                                   .replace('Cultural Team ', 'Cultural Team')
+                                                   .replace('University Club ', 'University Club')
+                                                   .trim();
+                
+                consolidated.push(record);
+                
+                // Update statistics
+                if (record.reg_number && record.name) {
+                    uniqueStudents.add(record.reg_number + '|' + record.name);
+                }
+                
+                if (record.club && record.club.toLowerCase() !== 'no club' && record.club.toLowerCase() !== 'no club') {
+                    studentsInClubs.add(record.reg_number + '|' + record.name);
+                    uniqueClubs.add(record.club);
+                }
+                
+                if (record.year) years.add(record.year);
+                if (record.club_type) clubTypes.add(record.club_type);
+            }
+            
+            // Calculate club statistics
+            const clubStats = {};
+            const clubYearStats = {};
+            const yearDistribution = {};
+            const clubTypeDistribution = {};
+            
+            // Count total club entries (excluding No Club)
+            let totalClubEntries = 0;
+            
+            consolidated.forEach(record => {
+                // Club stats
+                if (record.club && record.club.toLowerCase() !== 'no club' && record.club.toLowerCase() !== 'no club') {
+                    totalClubEntries++;
+                    
+                    if (!clubStats[record.club]) {
+                        clubStats[record.club] = {
+                            total_members: 0,
+                            club_type: record.club_type
+                        };
+                    }
+                    clubStats[record.club].total_members++;
+                    
+                    // Club-year stats
+                    const key = `${record.club}|${record.year}`;
+                    if (!clubYearStats[key]) {
+                        clubYearStats[key] = {
+                            club: record.club,
+                            year: record.year,
+                            count: 0
+                        };
+                    }
+                    clubYearStats[key].count++;
+                }
+                
+                // Year distribution
+                if (record.year) {
+                    yearDistribution[record.year] = (yearDistribution[record.year] || 0) + 1;
+                }
+                
+                // Club type distribution
+                if (record.club_type) {
+                    clubTypeDistribution[record.club_type] = (clubTypeDistribution[record.club_type] || 0) + 1;
+                }
+            });
+            
+            // Convert clubStats and clubYearStats to arrays
+            const clubStatsArray = Object.keys(clubStats).map(club => ({
+                club: club,
+                total_members: clubStats[club].total_members,
+                club_type: clubStats[club].club_type
+            }));
+            
+            const clubYearStatsArray = Object.values(clubYearStats);
+            
+            // Calculate averages - FIXED: Total club entries / Total unique students
+            const totalStudents = uniqueStudents.size;
+            const activeStudents = studentsInClubs.size;
+            const avgClubs = totalStudents > 0 ? 
+                (totalClubEntries / totalStudents).toFixed(2) : 
+                0;
+            
+            return {
+                consolidated: consolidated,
+                club_stats: clubStatsArray,
+                club_year_stats: clubYearStatsArray,
+                unique_clubs: Array.from(uniqueClubs).sort(),
+                years: Array.from(years).sort(),
+                club_types: Array.from(clubTypes).sort(),
+                year_distribution: yearDistribution,
+                club_type_distribution: clubTypeDistribution,
+                total_students: totalStudents,
+                students_in_clubs: activeStudents,
+                unique_clubs_count: uniqueClubs.size,
+                avg_clubs_per_student: parseFloat(avgClubs),
+                total_club_entries: totalClubEntries
+            };
+        }
+
+        // Initialize dashboard data
+        const dashboardData = parseCSVData();
+
+        let currentFilters = {
+            name: '',
+            reg: '',
+            year: [],
+            club: [],
+            type: []
+        };
+
+        let chartInstances = {};
+        let currentPage = 1;
+        const recordsPerPage = 50;
+
+        // Initialize Dashboard
+        function initDashboard() {
+            populateFilters();
+            updateStatistics();
+            createCharts();
+            updateTable();
+        }
+
+        // Populate Filter Dropdowns
+        function populateFilters() {
+            const yearSelect = document.getElementById('filterYear');
+            dashboardData.years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            });
+
+            const clubSelect = document.getElementById('filterClub');
+            dashboardData.unique_clubs.forEach(club => {
+                const option = document.createElement('option');
+                option.value = club;
+                option.textContent = club;
+                clubSelect.appendChild(option);
+            });
+
+            const typeSelect = document.getElementById('filterType');
+            dashboardData.club_types.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = type;
+                typeSelect.appendChild(option);
+            });
+        }
+
+        // Get selected values from multi-select
+        function getSelectedValues(selectId) {
+            const select = document.getElementById(selectId);
+            const selected = [];
+            
+            // Check all options
+            for (let i = 0; i < select.options.length; i++) {
+                if (select.options[i].selected) {
+                    selected.push(select.options[i].value);
+                }
+            }
+            
+            // If "All" is selected (empty string), return empty array to show all
+            if (selected.includes("")) {
+                return [];
+            }
+            
+            return selected;
+        }
+
+        // Filter Data
+        function getFilteredData() {
+            let filtered = dashboardData.consolidated.filter(row => {
+                const nameMatch = row.name.toLowerCase().includes(currentFilters.name.toLowerCase());
+                const regMatch = row.reg_number.toLowerCase().includes(currentFilters.reg.toLowerCase());
+                
+                // Multi-select year filter
+                const yearMatch = currentFilters.year.length === 0 || 
+                                 currentFilters.year.includes(row.year);
+                
+                // Multi-select club filter
+                const clubMatch = currentFilters.club.length === 0 || 
+                                 currentFilters.club.includes(row.club);
+                
+                // Multi-select type filter
+                const typeMatch = currentFilters.type.length === 0 || 
+                                 currentFilters.type.includes(row.club_type);
+
+                return nameMatch && regMatch && yearMatch && clubMatch && typeMatch;
+            });
+
+            return filtered;
+        }
+
+        // Update Dynamic Statistics
+        function updateStatistics() {
+            const filtered = getFilteredData();
+            const uniqueStudents = new Set(filtered.map(r => r.reg_number + '|' + r.name)).size;
+            const uniqueClubs = new Set(filtered.filter(r => 
+                r.club.toLowerCase() !== 'no club' && r.club.toLowerCase() !== 'no club'
+            ).map(r => r.club)).size;
+            
+            const activeStudents = new Set(filtered.filter(r => 
+                r.club.toLowerCase() !== 'no club' && r.club.toLowerCase() !== 'no club'
+            ).map(r => r.reg_number + '|' + r.name)).size;
+            
+            // Calculate total club entries for filtered data
+            const totalClubEntries = filtered.filter(r => 
+                r.club.toLowerCase() !== 'no club' && r.club.toLowerCase() !== 'no club'
+            ).length;
+            
+            // FIXED CALCULATION: Total club entries ÷ Total unique students
+            const avgClubs = uniqueStudents > 0 ? (totalClubEntries / uniqueStudents).toFixed(2) : 0;
+
+            document.getElementById('statTotalStudents').textContent = uniqueStudents;
+            document.getElementById('statActiveClubs').textContent = activeStudents;
+            document.getElementById('statUniqueClubs').textContent = uniqueClubs;
+            document.getElementById('statAvgClubs').textContent = avgClubs;
+        }
+
+        // Create Charts
+        function createCharts() {
+            const filtered = getFilteredData();
+
+            // Top Clubs Chart
+            const clubCounts = {};
+            filtered.filter(r => 
+                r.club.toLowerCase() !== 'no club' && r.club.toLowerCase() !== 'no club'
+            ).forEach(row => {
+                clubCounts[row.club] = (clubCounts[row.club] || 0) + 1;
+            });
+
+            const topClubs = Object.entries(clubCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 12);
+
+            updateChart('chartTopClubs', {
+                type: 'bar',
+                data: {
+                    labels: topClubs.map(c => c[0]),
+                    datasets: [{
+                        label: 'Members',
+                        data: topClubs.map(c => c[1]),
+                        backgroundColor: '#667eea',
+                        borderColor: '#5568d3',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // Year Distribution (Pie)
+            const yearCounts = {};
+            filtered.forEach(row => {
+                yearCounts[row.year] = (yearCounts[row.year] || 0) + 1;
+            });
+
+            updateChart('chartYear', {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(yearCounts),
+                    datasets: [{
+                        data: Object.values(yearCounts),
+                        backgroundColor: ['#667eea', '#764ba2', '#f093fb']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: true }
+            });
+
+            // Club Type Distribution
+            const typeCounts = {};
+            filtered.filter(r => 
+                r.club.toLowerCase() !== 'no club' && r.club.toLowerCase() !== 'no club'
+            ).forEach(row => {
+                typeCounts[row.club_type] = (typeCounts[row.club_type] || 0) + 1;
+            });
+
+            updateChart('chartType', {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(typeCounts),
+                    datasets: [{
+                        data: Object.values(typeCounts),
+                        backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#00f2fe']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: true }
+            });
+
+            // Club Composition by Year (Stacked Bar)
+            const yearClubData = {};
+            dashboardData.years.forEach(year => {
+                yearClubData[year] = {};
+                filtered.filter(r => r.year === year && 
+                    r.club.toLowerCase() !== 'no club' && r.club.toLowerCase() !== 'no club'
+                ).forEach(row => {
+                    yearClubData[year][row.club_type] = (yearClubData[year][row.club_type] || 0) + 1;
+                });
+            });
+
+            const typeLabels = [...new Set(filtered.filter(r => 
+                r.club.toLowerCase() !== 'no club' && r.club.toLowerCase() !== 'no club'
+            ).map(r => r.club_type))];
+            
+            const datasets = typeLabels.map((type, idx) => ({
+                label: type,
+                data: dashboardData.years.map(year => yearClubData[year][type] || 0),
+                backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#00f2fe'][idx % 5]
+            }));
+
+            updateChart('chartComposition', {
+                type: 'bar',
+                data: {
+                    labels: dashboardData.years,
+                    datasets: datasets
+                },
+                options: {
+                    scales: { x: { stacked: true }, y: { stacked: true } },
+                    responsive: true,
+                    maintainAspectRatio: true
+                }
+            });
+        }
+
+        // Update Chart Helper
+        function updateChart(canvasId, config) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+
+            if (chartInstances[canvasId]) {
+                chartInstances[canvasId].destroy();
+            }
+
+            chartInstances[canvasId] = new Chart(ctx, config);
+        }
+
+        // Update Table
+        function updateTable() {
+            const filtered = getFilteredData();
+            const totalRecords = filtered.length;
+            const totalPages = Math.ceil(totalRecords / recordsPerPage);
+            const startIdx = (currentPage - 1) * recordsPerPage;
+            const endIdx = startIdx + recordsPerPage;
+            const pageData = filtered.slice(startIdx, endIdx);
+
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            pageData.forEach(row => {
+                const tr = document.createElement('tr');
+                const typeClass = `type-${row.club_type.toLowerCase().replace(/\s+/g, '')}`;
+
+                tr.innerHTML = `
+                    <td>${row.reg_number}</td>
+                    <td><strong>${row.name}</strong></td>
+                    <td>${row.year}</td>
+                    <td>${row.club === 'No Club' || row.club === 'No club' ? 
+                        '<span class="na-badge">No Club</span>' : 
+                        '<span class="club-badge">' + row.club + '</span>'}</td>
+                    <td><span class="type-badge ${typeClass}">${row.club_type}</span></td>
+                    <td>${row.position || '-'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('tableRecordCount').textContent = totalRecords;
+
+            // Pagination
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.className = i === currentPage ? 'active' : '';
+                btn.onclick = () => {
+                    currentPage = i;
+                    updateTable();
+                };
+                pagination.appendChild(btn);
+            }
+        }
+
+        // Apply Filters
+        function applyFilters() {
+            currentFilters.name = document.getElementById('searchName').value;
+            currentFilters.reg = document.getElementById('searchReg').value;
+            
+            // Get all selected values
+            currentFilters.year = getSelectedValues('filterYear');
+            currentFilters.club = getSelectedValues('filterClub');
+            currentFilters.type = getSelectedValues('filterType');
+
+            currentPage = 1;
+            updateStatistics();
+            createCharts();
+            updateTable();
+        }
+
+        // Reset Filters
+        function resetFilters() {
+            document.getElementById('searchName').value = '';
+            document.getElementById('searchReg').value = '';
+            
+            const yearSelect = document.getElementById('filterYear');
+            const clubSelect = document.getElementById('filterClub');
+            const typeSelect = document.getElementById('filterType');
+            
+            // Reset all dropdowns to "All" option
+            for (let i = 0; i < yearSelect.options.length; i++) {
+                yearSelect.options[i].selected = (yearSelect.options[i].value === "");
+            }
+            for (let i = 0; i < clubSelect.options.length; i++) {
+                clubSelect.options[i].selected = (clubSelect.options[i].value === "");
+            }
+            for (let i = 0; i < typeSelect.options.length; i++) {
+                typeSelect.options[i].selected = (typeSelect.options[i].value === "");
+            }
+
+            currentFilters = { name: '', reg: '', year: [], club: [], type: [] };
+            currentPage = 1;
+            updateStatistics();
+            createCharts();
+            updateTable();
+        }
+
+        // Toggle Table
+        function toggleTable() {
+            const box = document.getElementById('tableBox');
+            box.classList.toggle('hidden');
+        }
+
+        // Initialize on Load
+        window.addEventListener('load', initDashboard);
+    </script>
+</body>
+</html>
