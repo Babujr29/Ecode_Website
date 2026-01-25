@@ -648,12 +648,9 @@
                 
                 // Redirect after delay
                 setTimeout(() => {
-                    // Uncomment the line below when you add your Google Form URL
-                    // window.location.href = REDIRECT_URL;
-                    
-                    // For demo purposes, show alert
-                    alert('🎉 Access Unlocked! You would be redirected to the Google Form now.\n\n(https://docs.google.com/forms/d/e/1FAIpQLSc58ok_MCaVzPhl78N3lMEmNqIGh8-ietKKwc8srAs2GrLX6w/viewform?usp=publish-editor)');
+                    window.location.href = REDIRECT_URL;
                 }, 2000);
+
             } else if (correctCount > 0) {
                 remainingEl.textContent = `${remaining} more dataset${remaining !== 1 ? 's' : ''} needed to proceed`;
                 unlockBadge.style.display = 'none';
@@ -676,5 +673,4 @@
         });
     </script>
 </body>
-
 </html>
