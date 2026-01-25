@@ -398,7 +398,7 @@
             <div class="stat-card">
                 <div class="stat-label">Total Students</div>
                 <div class="stat-value" id="statTotalStudents">-</div>
-            </div>
+            </div>  
             <div class="stat-card">
                 <div class="stat-label">Students in Clubs</div>
                 <div class="stat-value" id="statActiveClubs">-</div>
@@ -507,7 +507,8 @@
         // CSV Data Parser
         function parseCSVData() {
             const csvContent = `Registration Number,Name,Class,Club,Club_Type,Position
-2533301,Aanya Agarwal,First Year,No Club,No Club,
+2533301,Aanya Agarwal,First Year,Econtago,Departmnet Club ,Member
+2533301,Aanya Agarwal,First Year,SWO,University Club,Member
 2533302,Aayoshi Parui,First Year,ACC,University Club,Member
 2533302,Aayoshi Parui,First Year,Education and Skill development,University Club,Member
 2533302,Aayoshi Parui,First Year,Econtago,Departmnet Club ,Volunteer
@@ -517,6 +518,7 @@
 2533304,Agastya Pallavi Shethia,First Year,SWO,University Club,Logistics
 2533305,Akankshya Pradhan,First Year,SWO,University Club,Logistics
 2533305,Akankshya Pradhan,First Year,Zariya,Production house,Member
+2533306,Amritha Elizabeth Shibu,First Year,LIP,Production house,Member
 2533306,Amritha Elizabeth Shibu,First Year,Econtago,Departmnet Club ,Emcee Committee
 2533306,Amritha Elizabeth Shibu,First Year,SDG,Departmnet Club ,Emcee Committee
 2533306,Amritha Elizabeth Shibu,First Year,CAPS,University Club,Research volunteer
@@ -580,32 +582,47 @@
 2533343,Raibat Roy Choudhury,First Year,No Club,No Club,
 2533344,Ria Sharma,First Year,CAPS,University Club,Member
 2533345,Roopika Yallamelli,First Year,TNC,Cultural Team ,Member
+2533346,Sakhi Agarwal,First Year,Service Learing Cell ,Departmnet Club ,Member
+2533346,Sakhi Agarwal,First Year,Finance and Economics Cell,University Club,Member
+2533346,Sakhi Agarwal,First Year,Equinomica,Departmnet Club ,Member
 2533346,Sakhi Agarwal,First Year,CAPS,University Club,Member
+2533346,Sakhi Agarwal,First Year,Toastmasters,University Club,Member
+2533346,Sakhi Agarwal,First Year,Inquest,University Club,Member
 2533347,Shivanshi Mohapatra,First Year,Pravah,University Club,Member
 2533348,Shreeya Ramdass Bellie,First Year,Vingnette Windows,University Club,Member
-2533349,Shrinjini Samanta,First Year,CAPS,University Club,Member
-2533352,Siya Anand,First Year,Pravah,University Club,Member
+2533349,Shrinjini Samanta,First Year,Econtago,Departmnet Club ,Member
+2533352,Siya Anand,First Year,Cusbma,University Club,Member
+2533352,Siya Anand,First Year,Ecode,Departmnet Club ,Member
+2533352,Siya Anand,First Year,Zariya,Production house,Member
+2533352,Siya Anand,First Year,Econtago,Departmnet Club ,Member
+2533352,Siya Anand,First Year,Debsoc,University Club,Member
+2533353,Soumili Rakshit,First Year,Pravah,University Club,Member
 2533353,Soumili Rakshit,First Year,Synapse,University Club,Member
-2533353,Soumili Rakshit,First Year,Equinomica,Departmnet Club ,Member
-2533353,Soumili Rakshit,First Year,No Club,No Club,Member
+2533353,Soumili Rakshit,First Year,Analytica,Departmnet Club ,Member
+2533353,Soumili Rakshit,First Year,CAPS,University Club,Member
+2533353,Soumili Rakshit,First Year,Prolixus,University Club,Member
 2533354,Srinidhi Susarla,First Year,Equinomica,Departmnet Club , Assistant graphic designer 
 2533354,Srinidhi Susarla,First Year,Econtago,Departmnet Club ,Media
 2533354,Srinidhi Susarla,First Year,Alumni Relation Club,University Club,Documentation 
 2533354,Srinidhi Susarla,First Year,Orpheous,Production house,Actor 
-2533355,Sujishnu Bhattacharya,First Year,SWO,University Club,Member
+2533355,Sujishnu Bhattacharya,First Year,No Club,No Club,
 2533356,Thiruharan K,First Year,Finance and Economics Cell,University Club,Member
 2533356,Thiruharan K,First Year,SWO,University Club,Member
-2533356,Thiruharan K,First Year,Zariya,Production house,Member
 2533357,Udditee Kapoor,First Year,SWO,University Club,Member
-2533358,Upanshu Sil,First Year,No Club,No Club,Member
+2533358,Upanshu Sil,First Year,Zariya,Production house,Member
+2533358,Upanshu Sil,First Year,SWO,University Club,Member
 2533359,Uppalapati Harshith,First Year,Zariya,Production house,Member
-2533360,Vaibhavi Man,First Year,CAPS,University Club,Member
-2533361,Vibhi Maheshwari,First Year,Toastmasters,University Club,Member
-2533362,R S Vethavarna,First Year,Cusbma,University Club,Member
-2533362,R S Vethavarna,First Year,Vingnette Windows,University Club,Member
-2533363,Krina Vagadia,First Year,NCC,NCC,Member
+2533359,Uppalapati Harshith,First Year,SWO,University Club,Member
+2533360,Vaibhavi Man,First Year,No Club,No Club,
+2533361,Vibhi Maheshwari,First Year,Econtago,Departmnet Club ,Member
+2533362,R S Vethavarna,First Year,Toastmasters,University Club,Member
+2533362,R S Vethavarna,First Year,CAPS,University Club,Member
+2533362,R S Vethavarna,,Pravah,University Club,Member
+2533362,R S Vethavarna,,Vingnette Windows,University Club,Member
+2533363,Krina Vagadia,First Year,Vingnette Windows,University Club,Member
+2533363,Krina Vagadia,First Year,Cusbma,University Club,Member
 2533365,Triesha Venkatesh Hosur,First Year,NCC,NCC,BRC Campus representative a 3rd year NCC Cadet
-2533366,Riya Boban,First Year,No club,No Club,
+2533366,Riya Boban,First Year,Econtago,Departmnet Club ,Volunteer
 2433301,Attipalli Snija Thanishka Reddy,Second Year,Cusbma,University Club,Member
 2433301,Attipalli Snija Thanishka Reddy,Second Year,Zariya,Production house,Member
 2433301,Attipalli Snija Thanishka Reddy,Second Year,Electoral Literacy Club,University Club,Member
