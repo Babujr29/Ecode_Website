@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashHack 1.0 - The Decelathon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: radial-gradient(circle at 50% 50%, #111018, #0B0B0E, #0B0B0E);
+            color: #F5F5F7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating particles */
+        .particle-1 {
+            position: absolute;
+            top: 25%;
+            left: 33%;
+            width: 256px;
+            height: 256px;
+            border-radius: 50%;
+            background: #9B7CFF;
+            filter: blur(96px);
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle-2 {
+            position: absolute;
+            bottom: 33%;
+            right: 25%;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: #F4D35E;
+            filter: blur(96px);
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Accent lines */
+        .accent-line {
+            position: absolute;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, #9B7CFF, transparent);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .accent-line-left {
+            left: 25%;
+        }
+
+        .accent-line-right {
+            right: 25%;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 64px 32px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        .logo {
+            height: 100px;
+            object-fit: contain;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .logo:hover {
+            opacity: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 64px;
+            position: relative;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        .hero-bg img {
+            width: 100vw;          /* full screen width */
+            height: 100vh;         /* full screen height */
+            object-fit: cover;     /* prevent distortion */
+            max-width: none;       /* REMOVE width restriction */
+            position: fixed;       /* FIXED on screen */
+            top: 0;
+            left: 0;
+        }
+        
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: #F5F5F7;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: #B9B6C9;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero .event-logo {
+            margin-top: 32px;
+        }
+
+        .hero .event-logo img {
+            height: 48px;
+            object-fit: contain;
+        }
+
+        /* Password Section */
+        .password-section {
+            max-width: 768px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-center;
+            margin-bottom: 32px;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: #B9B6C9;
+            margin-bottom: 16px;
+        }
+
+        .progress-tracker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .progress-count {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #9B7CFF;
+        }
+
+        .progress-label {
+            color: #6E6A85;
+        }
+
+        .unlock-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(58, 255, 163, 0.1);
+            border: 1px solid #3AFFA3;
+            border-radius: 999px;
+            color: #3AFFA3;
+            font-size: 0.875rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Dataset Cards */
+        .datasets {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .dataset-card {
+            background: #14131C;
+            border: 1px solid #2A2836;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+
+        .dataset-card.success {
+            border-color: #3AFFA3;
+            box-shadow: 0 0 24px rgba(58, 255, 163, 0.2);
+        }
+
+        .dataset-card.error {
+            border-color: #FF5C77;
+            animation: shake 0.3s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .dataset-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .dataset-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .dataset-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #F5F5F7;
+        }
+
+        .dataset-input-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .dataset-input {
+            width: 100%;
+            background: #14131C;
+            border: 1px solid #2A2836;
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #F5F5F7;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .dataset-input:focus {
+            border-color: #9B7CFF;
+        }
+
+        .dataset-input::placeholder {
+            color: #6E6A85;
+        }
+
+        .dataset-input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6E6A85;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .toggle-password:hover {
+            color: #9B7CFF;
+        }
+
+        .verify-btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #9B7CFF, #7C5FD8);
+            border: none;
+            border-radius: 12px;
+            color: #F5F5F7;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .verify-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .feedback {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            font-size: 0.875rem;
+        }
+
+        .feedback.success {
+            color: #3AFFA3;
+        }
+
+        .feedback.error {
+            color: #FF5C77;
+        }
+
+        .feedback-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .remaining-count {
+            text-align: center;
+            margin-top: 24px;
+            color: #6E6A85;
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 80px;
+            text-align: center;
+            color: #6E6A85;
+            font-size: 0.875rem;
+        }
+
+        /* Icons */
+        .icon {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .logo {
+                height: 64px;
+            }
+
+            .container {
+                padding: 32px 16px;
+            }
+
+            .dataset-input-group {
+                flex-direction: column;
+            }
+
+            .verify-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particle-1"></div>
+    <div class="particle-2"></div>
+    <div class="accent-line accent-line-left"></div>
+    <div class="accent-line accent-line-right"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <img src="DashHack.png" alt="ECODE Club" class="logo">
+            <img src="ecode logo.jpeg" alt="Christ University" class="logo">
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-bg">
+                <img src="DashHack.png" alt="Background">
+            </div>
+            <h1>DASHHACK 1.0</h1>
+            <p class="subtitle">The Decelathon</p>
+        </div>
+
+        <!-- Password Section -->
+        <div class="password-section">
+            <div class="section-header">
+                <p>Enter any 3 correct datasets to unlock the challenge</p>
+                <div class="progress-tracker">
+                    <div class="progress-count"><span id="correctCount">0</span> / 3</div>
+                    <span class="progress-label">datasets unlocked</span>
+                    <div id="unlockBadge" class="unlock-badge" style="display: none;">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        <span>Access unlocked. Redirecting…</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="datasets">
+                <!-- Dataset 1 -->
+                <div class="dataset-card" id="card-1">
+                    <div class="dataset-header">
+                        <svg class="dataset-icon icon-lock-1" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9B7CFF" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <svg class="dataset-icon icon-check-1" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3AFFA3" stroke-width="2" style="display: none;">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        <h3 class="dataset-title">Student Performance (1)</h3>
+                    </div>
+                    <div class="dataset-input-group">
+                        <div class="input-wrapper">
+                            <input type="password" id="password-1" class="dataset-input" placeholder="Enter access code" data-correct="998177">
+                            <button class="toggle-password" onclick="togglePassword(1)">Show</button>
+                        </div>
+                        <button class="verify-btn" onclick="verifyPassword(1)">Verify</button>
+                    </div>
+                    <div id="feedback-1" class="feedback" style="display: none;"></div>
+                </div>
+
+                <!-- Dataset 2 -->
+                <div class="dataset-card" id="card-2">
+                    <div class="dataset-header">
+                        <svg class="dataset-icon icon-lock-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9B7CFF" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <svg class="dataset-icon icon-check-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3AFFA3" stroke-width="2" style="display: none;">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        <h3 class="dataset-title">Employee Productivity & Pay (2)</h3>
+                    </div>
+                    <div class="dataset-input-group">
+                        <div class="input-wrapper">
+                            <input type="password" id="password-2" class="dataset-input" placeholder="Enter access code" data-correct="471232">
+                            <button class="toggle-password" onclick="togglePassword(2)">Show</button>
+                        </div>
+                        <button class="verify-btn" onclick="verifyPassword(2)">Verify</button>
+                    </div>
+                    <div id="feedback-2" class="feedback" style="display: none;"></div>
+                </div>
+
+                <!-- Dataset 3 -->
+                <div class="dataset-card" id="card-3">
+                    <div class="dataset-header">
+                        <svg class="dataset-icon icon-lock-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9B7CFF" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <svg class="dataset-icon icon-check-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3AFFA3" stroke-width="2" style="display: none;">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        <h3 class="dataset-title">Consumer Spending Behaviour (3)</h3>
+                    </div>
+                    <div class="dataset-input-group">
+                        <div class="input-wrapper">
+                            <input type="password" id="password-3" class="dataset-input" placeholder="Enter access code" data-correct="056223">
+                            <button class="toggle-password" onclick="togglePassword(3)">Show</button>
+                        </div>
+                        <button class="verify-btn" onclick="verifyPassword(3)">Verify</button>
+                    </div>
+                    <div id="feedback-3" class="feedback" style="display: none;"></div>
+                </div>
+
+                <!-- Dataset 4 -->
+                <div class="dataset-card" id="card-4">
+                    <div class="dataset-header">
+                        <svg class="dataset-icon icon-lock-4" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9B7CFF" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <svg class="dataset-icon icon-check-4" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3AFFA3" stroke-width="2" style="display: none;">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        <h3 class="dataset-title">College Placement Outcomes (4)</h3>
+                    </div>
+                    <div class="dataset-input-group">
+                        <div class="input-wrapper">
+                            <input type="password" id="password-4" class="dataset-input" placeholder="Enter access code" data-correct="767071">
+                            <button class="toggle-password" onclick="togglePassword(4)">Show</button>
+                        </div>
+                        <button class="verify-btn" onclick="verifyPassword(4)">Verify</button>
+                    </div>
+                    <div id="feedback-4" class="feedback" style="display: none;"></div>
+                </div>
+
+                <!-- Dataset 5 -->
+                <div class="dataset-card" id="card-5">
+                    <div class="dataset-header">
+                        <svg class="dataset-icon icon-lock-5" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9B7CFF" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <svg class="dataset-icon icon-check-5" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3AFFA3" stroke-width="2" style="display: none;">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        <h3 class="dataset-title">Bank Loan & Credit Risk (5)</h3>
+                    </div>
+                    <div class="dataset-input-group">
+                        <div class="input-wrapper">
+                            <input type="password" id="password-5" class="dataset-input" placeholder="Enter access code" data-correct="140608">
+                            <button class="toggle-password" onclick="togglePassword(5)">Show</button>
+                        </div>
+                        <button class="verify-btn" onclick="verifyPassword(5)">Verify</button>
+                    </div>
+                    <div id="feedback-5" class="feedback" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="remainingCount" class="remaining-count"></div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            DashHack 1.0 • Built for thinkers, not speed-runners
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const REDIRECT_URL = "https://forms.google.com/your-form-link"; // UPDATE THIS WITH YOUR GOOGLE FORM LINK
+        const REQUIRED_CORRECT = 3;
+        
+        let correctCount = 0;
+        let validatedDatasets = {};
+
+        // Toggle password visibility
+        function togglePassword(id) {
+            const input = document.getElementById(`password-${id}`);
+            const button = input.nextElementSibling;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = 'Hide';
+            } else {
+                input.type = 'password';
+                button.textContent = 'Show';
+            }
+        }
+
+        // Verify password
+        function verifyPassword(id) {
+            const input = document.getElementById(`password-${id}`);
+            const card = document.getElementById(`card-${id}`);
+            const feedback = document.getElementById(`feedback-${id}`);
+            const lockIcon = document.querySelector(`.icon-lock-${id}`);
+            const checkIcon = document.querySelector(`.icon-check-${id}`);
+            const correctPassword = input.dataset.correct;
+            const enteredPassword = input.value.trim();
+
+            // Remove previous states
+            card.classList.remove('success', 'error');
+            feedback.style.display = 'none';
+
+            if (enteredPassword === correctPassword) {
+                // Success
+                validatedDatasets[id] = true;
+                card.classList.add('success');
+                feedback.className = 'feedback success';
+                feedback.innerHTML = `
+                    <svg class="feedback-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <span>Dataset verified ✓</span>
+                `;
+                feedback.style.display = 'flex';
+                
+                // Update icons
+                lockIcon.style.display = 'none';
+                checkIcon.style.display = 'inline-block';
+                
+                // Disable input
+                input.disabled = true;
+                input.nextElementSibling.style.display = 'none';
+                input.parentElement.nextElementSibling.style.display = 'none';
+                
+                updateProgress();
+            } else {
+                // Error
+                validatedDatasets[id] = false;
+                card.classList.add('error');
+                feedback.className = 'feedback error';
+                feedback.innerHTML = `
+                    <svg class="feedback-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    <span>Incorrect access code</span>
+                `;
+                feedback.style.display = 'flex';
+                
+                setTimeout(() => {
+                    card.classList.remove('error');
+                }, 300);
+            }
+        }
+
+        // Update progress
+        function updateProgress() {
+            correctCount = Object.values(validatedDatasets).filter(v => v === true).length;
+            document.getElementById('correctCount').textContent = correctCount;
+
+            const remaining = REQUIRED_CORRECT - correctCount;
+            const remainingEl = document.getElementById('remainingCount');
+            const unlockBadge = document.getElementById('unlockBadge');
+
+            if (correctCount >= REQUIRED_CORRECT) {
+                remainingEl.textContent = '';
+                unlockBadge.style.display = 'inline-flex';
+                
+                // Redirect after delay
+                setTimeout(() => {
+                    // Uncomment the line below when you add your Google Form URL
+                    // window.location.href = REDIRECT_URL;
+                    
+                    // For demo purposes, show alert
+                    alert('🎉 Access Unlocked! You would be redirected to the Google Form now.\n\n(Add your Google Form link to enable actual redirect)');
+                }, 2000);
+            } else if (correctCount > 0) {
+                remainingEl.textContent = `${remaining} more dataset${remaining !== 1 ? 's' : ''} needed to proceed`;
+                unlockBadge.style.display = 'none';
+            } else {
+                remainingEl.textContent = '';
+                unlockBadge.style.display = 'none';
+            }
+        }
+
+        // Add Enter key support
+        document.addEventListener('DOMContentLoaded', () => {
+            for (let i = 1; i <= 5; i++) {
+                const input = document.getElementById(`password-${i}`);
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !input.disabled) {
+                        verifyPassword(i);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
