@@ -105,7 +105,8 @@ h1 { font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 10px; }
     position: relative;
 }
 .announcement-header {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    text-align: center;
     border-bottom: 1px solid rgba(255,255,255,0.1);
     padding-bottom: 10px;
     margin-bottom: 20px;
@@ -426,3 +427,247 @@ nav ul li a:hover .fa-linkedin {
     .menu-toggle { display: none; }
     .logo { display: none; } /* Hide text logo on desktop if you rely on center nav */
 }
+
+
+
+/* --- PROJECTS SLIDESHOW --- */
+.projects-showcase {
+    padding: 80px 10%;
+    text-align: center;
+}
+
+.slideshow-container {
+    position: relative;
+    max-width: 900px;
+    max-height: 600px;
+    margin: 30px auto;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.slide {
+    display: none;
+    position: relative;
+}
+
+.slide.active {
+    display: block;
+}
+
+.slide img {
+    width: 80%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.slide-caption {
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.slide-caption h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.slide-caption p {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.slide-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.slide-btn {
+    padding: 12px 30px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 25px;
+    color: #fff;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.slide-btn:hover {
+    background: var(--accent-color);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+}
+
+/* Navigation Arrows */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    transition: 0.3s;
+}
+
+.prev { left: 20px; }
+.next { right: 20px; }
+
+.prev:hover, .next:hover {
+    background: var(--accent-color);
+    color: #000;
+}
+
+/* Slide Dots */
+.slide-dots {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.dot {
+    cursor: pointer;
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.dot.active, .dot:hover {
+    background-color: var(--accent-color);
+    transform: scale(1.2);
+}
+
+/* Fade Animation */
+.fade {
+    animation: fadeIn 0.8s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .slide img {
+        height: 250px;
+    }
+    
+    .slide-caption h3 {
+        font-size: 1.3rem;
+    }
+    
+    .slide-buttons {
+        flex-direction: column;
+    }
+    
+    .prev, .next {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+    }
+    
+    .prev { left: 10px; }
+    .next { right: 10px; }
+}
+/* --- SNAPSHOTS SECTION --- */
+.snapshots-section {
+    padding: 80px 0;
+    text-align: center;
+    overflow: hidden;
+}
+
+.railway-wrapper {
+    position: relative;
+    margin-top: 40px;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* The moving railway track */
+.railway-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: railwayMove 30s linear infinite;
+}
+
+/* Individual snapshots */
+.railway-track img {
+    width: 380px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255,255,255,0.1);
+    background: var(--card-bg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover = photo pops out */
+.railway-track img:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.35);
+}
+
+/* Railway Animation */
+@keyframes railwayMove {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* Pause animation on hover */
+.railway-wrapper:hover .railway-track {
+    animation-play-state: paused;
+}
+
+/* --- MOBILE --- */
+@media (max-width: 768px) {
+    .railway-track img {
+        width: 200px;
+        height: 140px;
+    }
+}
+/* --- CHATBOT PFP --- */
+.bot-pfp-container {
+    width: 80px;
+    height: 80px;
+    margin: 15px auto 5px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+}
+
+.bot-pfp-container img {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
