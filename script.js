@@ -63,7 +63,7 @@ function handleChatInput() {
     // 3. Generate Bot Response (Simulated Delay)
     setTimeout(() => {
         removeTypingIndicator();
-        const botResponse = getGauriResponse(userText);
+        const botResponse = getNavaResponse(userText);
         addMessage(botResponse, 'bot-msg');
         clearInterval(thinkingInterval); // ✅ STOP THINKING ANIMATION
         botPfp.src = FINAL_IMAGE; // ✅ settle image
@@ -80,12 +80,12 @@ function addMessage(text, className) {
     chatBody.appendChild(msgDiv);
 }
 
-// --- EDIT RESPONSES HERE (GAURI BRAIN) ---
-function getGauriResponse(input) {
+// --- EDIT RESPONSES HERE (Nava BRAIN) ---
+function getNavaResponse(input) {
     input = input.toLowerCase();
 
     if (input.includes("hello") || input.includes("hi")) {
-        return "Hello! I am Gauri, the ECODE assistant. How can I help you today?";
+        return "Hello! I am Nava, the ECODE assistant. How can I help you today?";
     } 
     else if (input.includes("event") || input.includes("register")) {
         return "You can check out our latest events in the 'Events' tab. Registration links are available there!";
